@@ -1,0 +1,40 @@
+name: Rule request
+description: Propose a new detection rule or a change to an existing rule.
+labels: ["rule"]
+body:
+  - type: markdown
+    attributes:
+      value: Read docs/rule-authoring.md before proposing a rule. v0.1.0 ships GHAT-001 through GHAT-004 only.
+  - type: input
+    id: rule_id
+    attributes:
+      label: Existing rule ID if this is a change
+      placeholder: GHAT-004
+  - type: textarea
+    id: threat
+    attributes:
+      label: Threat
+      description: Entry point, trust boundary, sink, and reachable privilege.
+    validations:
+      required: true
+  - type: textarea
+    id: positive
+    attributes:
+      label: Positive example
+      render: yaml
+    validations:
+      required: true
+  - type: textarea
+    id: near_miss
+    attributes:
+      label: Near-miss example that must not be a confirmed vulnerability
+      render: yaml
+    validations:
+      required: true
+  - type: textarea
+    id: references
+    attributes:
+      label: Primary references
+      description: GitHub docs, GitHub Security Lab, CWE, or OpenSSF. No secondary blog-only claims.
+    validations:
+      required: true

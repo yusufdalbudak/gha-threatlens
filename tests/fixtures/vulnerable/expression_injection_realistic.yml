@@ -1,0 +1,14 @@
+name: issue-comment
+on:
+  issue_comment:
+    types: [created]
+permissions:
+  contents: read
+jobs:
+  handle:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Process comment
+        run: |
+          echo "body: ${{ github.event.comment.body }}"
+          bash -c "echo done"

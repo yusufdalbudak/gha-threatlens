@@ -1,0 +1,131 @@
+[build-system]
+requires = ["setuptools>=77", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "gha-threatlens"
+version = "0.1.0"
+description = "Offline static analysis and attack-path correlation for GitHub Actions workflows."
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [{ name = "Yusuf Dalbudak" }]
+requires-python = ">=3.11"
+keywords = ["github-actions", "security", "static-analysis", "sarif"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Security",
+]
+dependencies = [
+    "click>=8.1",
+    "rich>=13.7",
+    "ruamel.yaml>=0.18",
+]
+
+[project.optional-dependencies]
+dev = [
+    "build>=1.2",
+    "mypy>=1.11",
+    "pytest>=8.3",
+    "pytest-cov>=5.0",
+    "ruff>=0.6",
+]
+
+[project.scripts]
+gha-threatlens = "gha_threatlens.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/yusufdalbudak/gha-threatlens"
+Issues = "https://github.com/yusufdalbudak/gha-threatlens/issues"
+Changelog = "https://github.com/yusufdalbudak/gha-threatlens/blob/main/CHANGELOG.md"
+
+[tool.setuptools]
+package-dir = { "" = "src" }
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+gha_threatlens = ["py.typed", "rules/metadata/*.yml"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = [
+    "E",
+    "F",
+    "I",
+    "N",
+    "UP",
+    "B",
+    "BLE",
+    "A",
+    "C4",
+    "ISC",
+    "ICN",
+    "PIE",
+    "PT",
+    "RET",
+    "SIM",
+    "TID",
+    "PTH",
+    "PL",
+    "RUF",
+]
+ignore = [
+    "ISC001",
+    "PLR0911",
+    "PLR0912",
+    "PLR0913",
+    "PLR0915",
+    "PLR0917",
+    "PLR2004",
+    "E501",
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["A001", "A002", "PLC0415", "E501", "PT018"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+# Expose only the tests package. Do not put src/ on sys.path; tests must import
+# the installed gha_threatlens distribution.
+pythonpath = ["."]
+addopts = ["-q", "--strict-markers", "--import-mode=importlib"]
+filterwarnings = ["error"]
+
+[tool.coverage.run]
+branch = true
+source = ["gha_threatlens"]
+
+[tool.coverage.report]
+fail_under = 90
+show_missing = true
+skip_covered = false
+exclude_lines = [
+    "pragma: no cover",
+    "if TYPE_CHECKING:",
+    "if __name__ == \"__main__\":",
+]
+
+[tool.mypy]
+python_version = "3.11"
+strict = true
+warn_unreachable = true
+warn_unused_ignores = true
+show_error_codes = true
+mypy_path = "src"
+packages = ["gha_threatlens"]
+
+[[tool.mypy.overrides]]
+module = ["ruamel", "ruamel.*"]
+ignore_missing_imports = true

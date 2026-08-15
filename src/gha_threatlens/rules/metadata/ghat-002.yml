@@ -1,0 +1,20 @@
+id: GHAT-002
+title: Excessive token permissions
+summary: The workflow declares write-all or other high-impact GITHUB_TOKEN write scopes.
+category: privileges
+default_severity: medium
+applicable: workflow.permissions, job.permissions
+remediation: >
+  Declare the minimum GITHUB_TOKEN scopes required, preferably at job level.
+  Prefer contents: read unless the job must modify the repository. An absent
+  permissions key is unknown, not confirmed write access. Legitimate publish
+  jobs may need write scopes; the finding flags breadth, not business necessity.
+references:
+  - title: GitHub Docs — Automatic token authentication
+    url: https://docs.github.com/en/actions/security-guides/automatic-token-authentication
+  - title: GitHub Docs — Assigning permissions to jobs
+    url: https://docs.github.com/en/actions/using-jobs/assigning-permissions-to-jobs
+  - title: GitHub Secure Use Reference — Least privilege
+    url: https://docs.github.com/en/actions/security-for-github-actions/security-guides/secure-use-reference#least-privilege
+cwe_ids:
+  - CWE-250

@@ -1,0 +1,45 @@
+name: Bug report
+description: Report incorrect detection, a crash, or unexpected CLI behaviour.
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: Use GitHub private vulnerability reporting for defects in the scanner process itself.
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behaviour
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behaviour
+    validations:
+      required: true
+  - type: textarea
+    id: workflow
+    attributes:
+      label: Workflow excerpt
+      description: Redact secrets. Do not paste tokens.
+      render: yaml
+  - type: input
+    id: version
+    attributes:
+      label: GHA-ThreatLens version
+    validations:
+      required: true
+  - type: input
+    id: python
+    attributes:
+      label: Python version
+    validations:
+      required: true
+  - type: textarea
+    id: command
+    attributes:
+      label: Command
+      description: Exact command and exit code.
+      render: bash
+    validations:
+      required: true

@@ -15,7 +15,6 @@ from tests.conftest import FIXTURES, FROZEN_TIME, scan_workflow_text
 
 SAFE = FIXTURES / "repositories" / "safe"
 PR_CHAIN = FIXTURES / "repositories" / "pr_chain"
-EMPTY = FIXTURES / "repositories" / "empty"
 MALFORMED = FIXTURES / "repositories" / "malformed"
 MIXED = FIXTURES / "repositories" / "mixed"
 GOLDEN = Path(__file__).resolve().parents[1] / "golden" / "safe.json"
@@ -124,9 +123,9 @@ def test_mixed_malformed_still_reports_valid() -> None:
     assert payload["diagnostics"]
 
 
-def test_empty_repository() -> None:
+def test_empty_repository(tmp_path: Path) -> None:
     runner = CliRunner()
-    result = runner.invoke(cli, ["scan", str(EMPTY), "--no-color"])
+    result = runner.invoke(cli, ["scan", str(tmp_path), "--no-color"])
     assert result.exit_code == EXIT_OK
 
 
